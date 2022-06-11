@@ -1,15 +1,17 @@
 import axios from 'axios';
 
 const configOMB = {
-    baseURL: 'http://www.omdbapi.com',
+    baseURL: 'https://www.omdbapi.com',
 };
-const key = '';
+const key = '3804f4b1';
 const axiosInstance = axios.create(configOMB);
 
 const API = {
     searchFilmsByTitle: (title: string) => {
+        return axiosInstance.get(`/?s=${title}&apikey=${key}`)
     },
     searchFilmsByType: (title: string, type: string) => {
+
     }
 };
 
