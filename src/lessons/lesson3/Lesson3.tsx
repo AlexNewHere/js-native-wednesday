@@ -2,6 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import API from './API';
 import './lesson_3';
 import nullPost from './logo/nullPost.jpg'
+import {v1} from 'uuid';
 
 type DataSearchType = {
     Title: string
@@ -15,14 +16,14 @@ const Lesson3 = () => {
     const [searchName, setSearchName] = useState<string>('');
     const [serachResult, setSerachResult] = useState<Array<DataSearchType>>([]);
     const [searchNameByType, setSearchNameByType] = useState('');
-    const [serachResultByType, setSerachResultByType] = useState('');
+    const [serachResultByType, setSerachResultByType] = useState<Array<DataSearchType>>([]);
     const [serachResultError, setSerachResultError] = useState<string>('');
 
     const searchFilm = () => {
         if (searchName.match(/^[a-z0-9]+$/) && searchName.length >= 3) {
             API.searchFilmsByTitle(searchName)
                 .then(response => {
-                        if (response.data.Response==="True") {
+                        if (response.data.Response === 'True') {
                             setSerachResult(response.data.Search)
                             console.log(response)
                             setSearchName('')
@@ -43,8 +44,24 @@ const Lesson3 = () => {
 
     const searchByType = (e: React.MouseEvent<HTMLButtonElement>) => {
         const type: string = e.currentTarget.dataset.t ? e.currentTarget.dataset.t : '';
-        API.searchFilmsByType(searchNameByType, type)
-
+        if (searchNameByType.match(/^[a-z0-9]+$/) && searchNameByType.length >= 3) {
+            API.searchFilmsByType(searchNameByType, type)
+                .then(response => {
+                        if (response.data.Response === 'True') {
+                            console.log(response.data)
+                            setSerachResultByType(response.data.Search)
+                            setSearchName('')
+                        } else {
+                            setSerachResultError('Ничего не найдено')
+                            setSerachResultByType([])
+                        }
+                    }
+                )
+                .catch(error => console.log(`Беда пришла отседа -${error}`))
+        } else {
+            setSerachResultByType([])
+            setSerachResultError('only latin letters and numbers 3 characters long')
+        }
     }
 
     const writeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,8 +76,8 @@ const Lesson3 = () => {
                 <input type="text" value={searchName} onChange={writeHandler}/>
                 <button onClick={searchFilm}>Search</button>
                 <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '10px'}}>
-                    { serachResult.length ?
-                        serachResult.map(el => <div>
+                    {serachResult.length ?
+                        serachResult.map(el => <div key={v1()}>
                             <div>{el.Title + ' ' + el.Year}</div>
                             <img style={{width: '200px'}} src={el.Poster !== 'N/A' ? el.Poster : nullPost}
                                  alt={'logo'}/></div>) :
@@ -75,8 +92,14 @@ const Lesson3 = () => {
                        onChange={(e) => setSearchNameByType(e.currentTarget.value)}/>
                 <button onClick={searchByType} data-t="movie">Movie</button>
                 <button onClick={searchByType} data-t="series">Series</button>
-                <div>
-                    {serachResultByType}
+                <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '10px'}}>
+                    {serachResultByType.length ?
+                        serachResultByType.map(el => <div key={v1()}>
+                            <div>{el.Title + ' ' + el.Year}</div>
+                            <img style={{width: '200px'}} src={el.Poster !== 'N/A' ? el.Poster : nullPost}
+                                 alt={'logo'}/></div>) :
+                        <div>{serachResultError}</div>
+                    }
                 </div>
             </div>
         </div>
