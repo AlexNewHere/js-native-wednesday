@@ -79,12 +79,32 @@ const handlePromise = {
 // Создайте функцию print, которая выводит в консоль значение своего параметра
 // Добавьте два метода then и передайте созданные функции.
 
+let myName = new Promise(res=> {
+    setTimeout(()=>res('My name is'), 1000)
+})
+function onSuccess (name) {
+    return `${name} Alex`
+}
+function print (param) {
+    return console.log(param)
+}
+
+myName.then(data=> onSuccess(data)).then(data=> print(data))
 
 // Task 7
 // Создайте три промиса. Первый промис возвращает объект { name: "Anna" } через 2с,
 // второй промис возвращает объект {age: 16} через 3 с, а третий {city: ''} через 4с.
 // Получите результаты работы промисов, объедините свойства объектов
 // и выведите в консоль {name, age, city}
+const taskName = async () => {
+    let name = await new Promise(res=> setTimeout(()=>res({ name: "Anna" }), 2000))
+    let age = await new Promise(res=> setTimeout(()=>res({age: 16}), 3000))
+    let city = await new Promise(res=> setTimeout(()=>res({ city: "" }), 4000))
+    // @ts-ignore
+    return {...name, ...age, ...city}
+}
+
+taskName().then(data=>console.log(data))
 
 
 // just a plug
