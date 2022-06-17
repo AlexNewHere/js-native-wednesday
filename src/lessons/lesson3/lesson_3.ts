@@ -1,3 +1,5 @@
+import {log} from 'util';
+
 console.log('lesson 3');
 
 // Event loop
@@ -14,6 +16,28 @@ console.log('lesson 3');
 
 // https://jsonplaceholder.typicode.com/posts/1
 // https://habr.com/ru/company/oleg-bunin/blog/417461/?_ga=2.54695343.543933152.1602500664-1040035071.1596811661
+
+
+let axios = {
+    get (url) {
+        let promise = new Promise( (resolve, reject) => {
+            if (url===1) {
+            setTimeout(()=> {resolve('Get Data')}, 3000)
+            } else {reject('Data request ended with an error')}
+        })
+        return promise
+    }
+}
+
+axios.get(2)
+    .then(data=>console.log(data))
+    .catch(data=>console.log(data))
+
+
+
+
+
+
 
 
 // just a plug

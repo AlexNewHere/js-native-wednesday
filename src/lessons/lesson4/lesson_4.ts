@@ -7,26 +7,44 @@ console.log('lesson 4');
 // Task 01
 // Создайте промис, который постоянно находиться в состоянии pending.
 // В конструкторе промиса выведите в консоль сообщение "Promise is created".
+// console.log('Task 01')
 
+let oneTask = new Promise((resolve, reject) => {
+    console.log('Promise is created')
+})
+console.log(oneTask)
 
 // Task 02
 // Создайте промис, который после создания сразу же переходит в состояние resolve
 // и возвращает строку 'Promise Data'
 // Получите данные промиса и выведите их в консоль
+// console.log('Task 02')
 
+let twoTask = new Promise((resolve, reject) => {
+    resolve('Promise Data')
+})
+twoTask.then(res => console.log(res))
 
 // Task 03
 // Создайте промис, который после создания сразу же переходит в состояние rejected
 // и возвращает строку 'Promise Error'
 // Получите данные промиса и выведите их в консоль
+// console.log('Task 03')
 
+let threeTask = new Promise((resolve, reject) => {
+    reject('Promise Error')
+})
+threeTask.catch(res => console.log(res))
 
 // Task 04
 // Создайте промис, который переходит в состояние resolved через 3с.
 // (Используйте setTimeout)
 // и возвращает строку 'Promise Data'
 // Получите данные промиса и выведите их в консоль
-
+let fourTask = new Promise((resolve, reject) => {
+    setTimeout(() => resolve('Promise Data'), 3000)
+})
+fourTask.then(res => console.log(res))
 
 // Task 05
 // Создайте литерал объекта handlePromise со следующими свойствами:
@@ -40,6 +58,18 @@ console.log('lesson 4');
 // описаного выше объекта: свойство promise получает новый созданный промис,
 // свойства resolve и reject получают ссылки на соответствующие функции
 // resolve и reject. Следующие два обработчика запускают методы resolve и reject.
+
+const handlePromise = {
+    promise: null,
+    resolve: null,
+    reject: null,
+    onSuccess(paramName) {
+        console.log(`Promise is resolved with data: ${paramName}`)
+    },
+    onError(paramName) {
+        console.log(`Promise is rejected with error: ${paramName}`)
+    },
+}
 
 
 // Task 06
@@ -57,6 +87,6 @@ console.log('lesson 4');
 // и выведите в консоль {name, age, city}
 
 
-
 // just a plug
-export default ()=>{};
+export default () => {
+};
