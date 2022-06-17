@@ -1,4 +1,3 @@
-import {log} from 'util';
 
 console.log('lesson 2');
 
